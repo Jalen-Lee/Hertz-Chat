@@ -44,6 +44,6 @@ lerna-debug.log*
 
 # misc
 **/.env.local
-**/.env.development
+**/client/.env.development
 **/.env.test.local
 **/.env.production.local
