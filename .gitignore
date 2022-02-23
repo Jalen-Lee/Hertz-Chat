@@ -43,7 +43,7 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 # misc
-**/.env.local
-**/client/.env.development
-**/.env.test.local
-**/.env.production.local
+/.env.local
+/client/.env.development
+/.env.test.local
+/.env.production.local
