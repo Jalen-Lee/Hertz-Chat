@@ -1,0 +1,52 @@
+$main-background-color: #40444b;
+$main-icon-color: #b9bbbe;
+$main-font-color: #b9bbbe;
+$main-height: 35px;
+
+.conversation-search-container {
+  height: $main-height;
+  display: flex;
+  color: $main-font-color;
+  background: $main-background-color;
+  border-radius: 4px;
+  position: relative;
+  padding-right: 35px;
+
+  .icon{
+    width: 35px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .input-area{
+    flex: 1;
+    outline: none;
+    border: none;
+    color: inherit;
+    background-color: transparent;
+    height: 100%;
+    &:focus{
+      color: #ffffff;
+    }
+  }
+
+  .clear-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    visibility: hidden;
+    transition: all .1s;
+    &:hover{
+      color: #ffffff;
+    }
+  }
+
+  .show{
+    visibility: visible;
+  }
+}
+
+

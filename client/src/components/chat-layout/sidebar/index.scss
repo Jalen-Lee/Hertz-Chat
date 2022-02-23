@@ -1,0 +1,11 @@
+.chat-layout-sidebar-container {
+  flex: 1 1 auto;
+  height: 100%;
+  overflow: hidden;
+  min-width: 250px;
+  position: relative;
+  background-color: #363e47;
+  display: flex;
+  flex-direction: column;
+  color: #000;
+}

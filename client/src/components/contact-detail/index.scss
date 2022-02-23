@@ -1,0 +1,39 @@
+.contacts-detail{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .friend-detail,.group-detail{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+
+    &-header{
+      display: flex;
+      justify-content: space-between;
+      .left{
+        .name{
+          font-size: 22px;
+          font-weight: 600;
+        }
+        .description{
+
+        }
+      }
+      .right{
+
+      }
+    }
+
+    &-main{
+      min-height: 200px;
+    }
+
+    &-footer{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

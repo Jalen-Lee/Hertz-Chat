@@ -1,0 +1,43 @@
+.conversation-list-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 65px;
+    padding: 0 10px;
+
+    .search-bar {
+      flex: 1;
+      margin-right: 10px;
+    }
+
+    .join-btn {
+      width: 35px;
+      height: 35px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #b9bbbe;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all .1s;
+
+      &:hover {
+        color: #ffffff;
+        background-color: #40444b;
+      }
+    }
+  }
+
+  .conversations-scroller {
+    overflow-y: scroll;
+    flex: 1;
+  }
+}
+//
+//.invisible{
+//  display: none;
+//}

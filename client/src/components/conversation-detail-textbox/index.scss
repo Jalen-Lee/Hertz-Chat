@@ -1,0 +1,72 @@
+.conversation-detail-textbox{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 3px 0 4px 0;
+}
+
+.input-bar-header{
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+
+  &-left{
+    display: flex;
+  }
+
+  &-right{
+
+  }
+}
+
+.input-bar-main{
+  padding: 0 0 0 20px;
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.input-bar-footer{
+  padding-top: 3px;
+  display: flex;
+  justify-content: flex-end;
+  height: 30px;
+}
+
+.input-bar-option-btn{
+  cursor: pointer;
+  font-size: 24px;
+  color: grey;
+  margin: 0 12px 0 0;
+  &:hover{
+    color: #000;
+  }
+}
+
+#editArea {
+  max-width: 880px;
+  width: 880px;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  outline: none;
+  border: 0;
+  font-size: 16px;
+  white-space: pre-wrap;
+  word-break: normal;
+  line-height: 1.2;
+  font-family: Consolas;
+  &:empty:not(:focus):before {
+    color: aqua;
+    content: attr(placeholder);
+  }
+}
+
+[contentEditable='true']:empty:not(:focus):before {
+  color: aqua;
+  content: attr(placeholder);
+}

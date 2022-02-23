@@ -1,0 +1,129 @@
+.conversation-detail-message {
+  margin: 20px 0;
+}
+
+.message-wrap {
+  display: flex;
+
+  .message-sender {
+
+  }
+
+  .message-content {
+    display: flex;
+    flex-direction: column;
+
+    &-header {
+      display: flex;
+      color: #a9a9a9;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    &-post-time {
+      display: flex;
+      margin-top: 2px;
+      color: #a5b5c1;
+      font-size: 12px;
+    }
+  }
+
+  .message-status {
+    width: 30px;
+  }
+}
+
+.message-wrap.opposite {
+  flex-direction: row;
+  //background-color: red;
+  .message-content {
+    align-items: flex-start;
+
+    &-header{
+      margin-left: 15px;
+    }
+
+    &-main {
+    }
+
+    &-post-time {
+      margin-left: 15px;
+    }
+  }
+}
+
+.message-wrap.self {
+  flex-direction: row-reverse;
+  //background-color: aqua;
+  .message-content {
+    align-items: flex-end;
+    &-header{
+      margin-right: 15px;
+    }
+
+    &-main {
+    }
+
+    &-post-time {
+      margin-right: 15px;
+    }
+  }
+}
+
+
+.message-body {
+  margin-left: 14px;
+  background-color: #5cadff;
+  margin-right: 15px;
+  border-radius: 4px;
+  color: #fff;
+  outline: none;
+  font-size: 14px;
+  position: relative;
+  max-width: 350px;
+  word-wrap: break-word;
+  word-break: break-all;
+  padding: 10px;
+  box-shadow: 0 5px 10px 0 rgb(0 0 0 / 10%);
+
+  &-text {
+    //display: inline-block;
+    width: 100%;
+    overflow: hidden;
+  }
+}
+
+.message-body:before {
+  top: 27%;
+  transform: translateY(-27%);
+  position: absolute;
+  width: 0;
+  height: 0;
+  content: " ";
+}
+
+.self .message-body {
+  background-color: #5cadff;
+  color: #ffffff;
+}
+
+.opposite .message-body {
+  background-color: #ffffff;
+  color: #606266;
+}
+
+
+.self .message-body:before {
+  right: -10px;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #5cadff;
+}
+
+.opposite .message-body:before {
+  left: -10px;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid #ffffff;
+}
