@@ -1,11 +1,15 @@
 {
   "name": "hertz-chat",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "基于websocket和webrtc的im通讯web app",
   "scripts": {
+    "launch": "chmod +x ./bin/* && ./bin/install.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Jalen-Lee",
   "license": "ISC",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/Jalen-Lee/Hertz-Chat.git"
+  }
 }
