@@ -43,7 +43,7 @@ lerna-debug.log*
 
 # misc
 **/.env.development
-/.env.local
+**/.env.local
 **/.env.*
 /.env.test.local
 /.env.production.local

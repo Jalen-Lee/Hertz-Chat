@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "description": "基于websocket和webrtc的im通讯web app",
   "scripts": {
-    "start:dev": "cd server; yarn start:dev; cd ..; cd client; yarn start",
+    "launch": "chmod +x ./bin/* && ./bin/install.sh",
     "start-dev:client": "cd client && yarn start",
     "start-dev:server": "cd server && yarn start:dev",
-    "build": "",
+    "build": "chmod +x ./bin/* && ./bin/build.sh",
     "build:client": "cd client && yarn build",
     "build:server": "cd server && yarn build",
-    "launch": "chmod +x ./bin/* && ./bin/install.sh",
+    "preview": "chmod +x ./bin/* && ./bin/preview.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jalen-Lee",
