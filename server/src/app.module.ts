@@ -18,7 +18,8 @@ import { ConversationModule } from './modules/conversation/conversation.module'
     // config模块
     ConfigModule.forRoot({
       // 禁止加载环境变量
-      ignoreEnvFile: true,
+      ignoreEnvFile: false,
+      envFilePath: ['.env.development', '.env.production'],
       // 全局使用
       isGlobal: true,
       // 自定义配置文件
