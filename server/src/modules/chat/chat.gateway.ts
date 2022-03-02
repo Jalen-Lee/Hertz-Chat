@@ -6,16 +6,19 @@ import {
   OnGatewayInit,
   OnGatewayConnection,
   OnGatewayDisconnect,
+  MessageBody,
 } from '@nestjs/websockets'
 
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+import { nanoid } from 'nanoid'
 
 import { Server, Socket } from 'socket.io'
 import { UserProfileEntity } from '../../entities/UserProfile.entity'
 import { UserAccountEntity } from '../../entities/UserAccount.entity'
 import { GroupEntity } from '../../entities/Group.entity'
 import { GroupService } from '../group/group.service'
+import any = jasmine.any
 
 @WebSocketGateway({
   namespace: 'hertz-ws-qa',
@@ -27,7 +30,7 @@ import { GroupService } from '../group/group.service'
 export class ChatGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
-  @WebSocketServer() servers
+  @WebSocketServer() server: Server
 
   constructor(
     @InjectRepository(UserProfileEntity)
@@ -81,12 +84,88 @@ export class ChatGateway
     console.log('用户加入自己的房间')
 
     const { data } = await this.groupService.getUserGroups(uid)
-    client.emit('server.first-load', {
-      conversations: [...data],
+    console.log('groups data', data)
+    client.emit('server.initialize', {
+      conversations: data.map((i) => ({
+        id: i.id,
+        name: i.name,
+        avatar: i.icon,
+        hotMsg: '',
+        postDate: '',
+        unreadCount: 0,
+        type: 'group',
+        info: i,
+      })),
+      groups: data,
     })
   }
 
   handleDisconnect(@ConnectedSocket() client: Socket) {
     console.log(`客户端${client.id}已断开连接`)
+  }
+
+  /**
+   * 客户端发送好友消息
+   * @param data
+   * @param client
+   */
+  @SubscribeMessage('client.send-friend-msg')
+  handleClientSendFriendMsg(
+    @MessageBody() data: any,
+    @ConnectedSocket() client: Socket,
+  ): void {
+    const { from, to, type, content } = data
+    client.to(to).emit('server.receive-friend-msg', {
+      from,
+      type,
+      content,
+    })
+  }
+
+  /**
+   * 客户端发送群聊消息
+   * @param data
+   * @param client
+   */
+  @SubscribeMessage('client.send-group-msg')
+  handleClientSendGroupMsg(
+    @MessageBody() data: any,
+    @ConnectedSocket() client: Socket,
+  ): void {
+    const { groupId, sender, type, content } = data
+    console.log('client.send-group-msg', data)
+    client.broadcast.to(groupId).emit('server.receive-group-msg', {
+      id: nanoid(),
+      groupId,
+      senderInfo: sender,
+      messageType: type,
+      content,
+    })
+  }
+
+  /**
+   * 客户端发送添加好友请求
+   * @param data
+   * @param client
+   */
+  @SubscribeMessage('client.send-add-friend-req')
+  handleClientSendAddFriendReq(
+    @MessageBody() data: any,
+    @ConnectedSocket() client: Socket,
+  ): void {
+    const { from, to } = data
+  }
+
+  /**
+   * 客户端发送加入群聊请求
+   * @param data
+   * @param client
+   */
+  @SubscribeMessage('client.send-join-group-req')
+  handleClientSendJoinGroupReq(
+    @MessageBody() data: string,
+    @ConnectedSocket() client: Socket,
+  ): string {
+    return data
   }
 }

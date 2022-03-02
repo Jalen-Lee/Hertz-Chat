@@ -5,42 +5,45 @@ import {
   RegisterBodyDto,
   RegisterResponseDto,
   CheckTokenBodyDto,
-  CheckTokenResponseDto
-} from '../types/dto'
+  CheckTokenResponseDto,
+} from '../@types/dto'
 
 // 登录
-export async function signIn(payload:any):Promise<any>{
+export async function signIn(payload: any): Promise<any> {
   return new Promise((resolve, reject) => {
-    request.post<any>('/auth/login',payload)
-      .then(data=>{
+    request
+      .post<any>('/auth/login', payload)
+      .then((data) => {
         resolve(data)
       })
-      .catch(err=>{
+      .catch((err) => {
         reject(err)
       })
   })
 }
 
 // 注册
-export async function signUp(payload:any):Promise<any>{
+export async function signUp(payload: any): Promise<any> {
   return new Promise((resolve, reject) => {
-    request.post<any>('/auth/signup',payload)
-      .then(data=>{
+    request
+      .post<any>('/auth/signup', payload)
+      .then((data) => {
         resolve(data)
       })
-      .catch(err=>{
+      .catch((err) => {
         reject(err)
       })
   })
 }
 
-export function checkToken(payload:any):Promise<any>{
+export function checkToken(payload: any): Promise<any> {
   return new Promise((resolve, reject) => {
-    request.post<any>('/auth/checkToken',payload)
-      .then(data=>{
+    request
+      .post<any>('/auth/checkToken', payload)
+      .then((data) => {
         resolve(data)
       })
-      .catch(err=>{
+      .catch((err) => {
         reject(err)
       })
   })

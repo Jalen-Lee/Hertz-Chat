@@ -5,12 +5,14 @@ import {
   ChatSidebar,
   ChatMain,
 } from '../../components/chat-layout'
-import { NavTabItemName } from '../../types/common.d'
+import { NavTabItemName } from '../../@types/common.d'
 
 import './index.scss'
 
 export default function Chat() {
-  const [currentTab, setCurrentTab] = useState<NavTabItemName>(NavTabItemName.CONVERSATIONS_LIST)
+  const [currentTab, setCurrentTab] = useState<NavTabItemName>(
+    NavTabItemName.CONVERSATIONS_LIST,
+  )
   const [currentConversation, setCurrentConversation] = useState<any>()
   const [contact, setContact] = useState<any>()
 
@@ -23,21 +25,18 @@ export default function Chat() {
     console.log('#11', conversation)
   }
 
-  function onContactChange(contact:any){
-
+  function onContactChange(contact: any) {
     setContact(contact)
-    console.log("联系人变更",contact)
+    console.log('联系人变更', contact)
   }
 
   return (
-    <div id='chat-container'>
-      <div className='bg' />
-      <div className='layout'>
-        <Grid container height='100%' wrap={'nowrap'}>
+    <div id="chat-container">
+      <div className="bg" />
+      <div className="layout">
+        <Grid container height="100%" wrap={'nowrap'}>
           <Grid item width={'80px'}>
-            <ChatNavigation
-              tabChange={onTabChange}
-            />
+            <ChatNavigation tabChange={onTabChange} />
           </Grid>
           <Grid item xs={3}>
             <ChatSidebar
