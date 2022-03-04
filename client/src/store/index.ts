@@ -2,6 +2,7 @@ import { makeAutoObservable } from 'mobx'
 import userStore from './user.store'
 import authStore from './auth.store'
 import chatStore from './chat.store'
+import appStore from './app.store'
 import { getToken } from '../utils/token'
 
 class RootStore {
@@ -17,6 +18,7 @@ class RootStore {
   userStore = userStore
   authStore = authStore
   chatStore = chatStore
+  appStore = appStore
 
   constructor() {
     makeAutoObservable(

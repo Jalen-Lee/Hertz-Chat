@@ -8,6 +8,8 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import useStore from '../../../hooks/useStore'
 import './index.scss'
 import { NavTabItemName } from '../../../@types/common.d'
+import { Popover } from 'antd'
+import ProfileCard from '../../profile-card'
 
 interface Prop {
   tabChange: (tabId: NavTabItemName) => void
@@ -32,14 +34,27 @@ export default observer(function ({ tabChange }: Prop) {
   return (
     <nav className="chat-layout-navigation-container">
       <div className="profile">
-        <Avatar
-          src={userStore.userinfo && userStore.userinfo.avatar}
-          alt={userStore.userinfo && userStore.userinfo.username}
-          style={{
-            width: '50px',
-            height: '50px',
+        <Popover
+          placement="rightTop"
+          content={<ProfileCard />}
+          trigger="click"
+          overlayStyle={{
+            padding: '0',
+            borderRadius: '5px',
           }}
-        />
+          overlayInnerStyle={{
+            padding: '0',
+          }}
+        >
+          <Avatar
+            src={userStore.userinfo && userStore.userinfo.avatar}
+            alt={userStore.userinfo && userStore.userinfo.username}
+            style={{
+              width: '50px',
+              height: '50px',
+            }}
+          />
+        </Popover>
       </div>
       <div className="tabs-list">
         <div className="row-1">

@@ -25,7 +25,7 @@ export default observer(function ({
     if (!currentConversation)
       return wrapper(<IEmpty type={IEmptyType.NO_MSG} />)
     else {
-      return wrapper(<ConversationDetail detail={currentConversation} />)
+      return wrapper(<ConversationDetail conversation={currentConversation} />)
     }
   } else if (currentTab === NavTabItemName.CONTACTS_LIST) {
     if (!contact) return wrapper(<IEmpty type={IEmptyType.NO_MSG} />)

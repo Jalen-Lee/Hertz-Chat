@@ -11,17 +11,6 @@ interface Friend {
 
 interface Group {}
 
-interface Conversation {
-  id: string
-  name: string
-  avatar: string
-  hotMsg: string
-  postDate: string
-  unreadCount: number
-  type: ConversationType
-  info: any
-}
-
 class ChatStore {
   // 当前连接socket实例
   socket: Socket | undefined
@@ -32,7 +21,7 @@ class ChatStore {
   // 群聊列表
   groupsList: any[] = []
   // 会话列表
-  conversationsList: Conversation[] = []
+  conversationsList: IConversation[] = []
   // 群聊消息表
   groupMessagesMap = new Map<string, IGroupMessage[]>()
   // 私聊消息表
@@ -48,6 +37,42 @@ class ChatStore {
     )
   }
 
+  /**
+   * socket初始化
+   */
+  socketInit() {
+    this.socket = io(this.wssUrl, { autoConnect: false })
+    this.socket.on('connect', () => {
+      message.success('WebSocket已连接')
+    })
+
+    this.socket.on('server.initialize', this.onInit)
+    this.socket.on('server.receive-friend-msg', this.onReceiveFriendMsg)
+    this.socket.on('server.receive-group-msg', this.onReceiveGroupMsg)
+    this.socket.on('server.receive-add-friend-req', this.onReceiveAddFriendReq)
+    this.socket.on('server.receive-add-friend-res', this.onReceiveAddFriendRes)
+  }
+
+  /**
+   * 建立socket连接
+   */
+  socketConnect() {
+    this.socket!.auth = { uid: userStore.userinfo?.uid }
+    this.socket?.connect()
+  }
+
+  /**
+   * 断开socket连接
+   */
+  disconnectSocket() {
+    this.socket?.disconnect()
+  }
+
+  /**
+   *
+   * @param payload
+   * @private
+   */
   private onInit(payload: any) {
     console.group('ws:server.initialize')
     console.log('payload', payload)
@@ -86,6 +111,7 @@ class ChatStore {
       senderInfo: payload.senderInfo,
       messageType: payload.messageType,
       content: payload.content,
+      postDate: payload.postDate,
     })
     console.groupEnd()
   }
@@ -109,29 +135,11 @@ class ChatStore {
     console.groupEnd()
   }
 
-  socketInit() {
-    this.socket = io(this.wssUrl, { autoConnect: false })
-    this.socket.on('connect', () => {
-      message.success('WebSocket已连接')
-    })
-
-    this.socket.on('server.initialize', this.onInit)
-    this.socket.on('server.receive-friend-msg', this.onReceiveFriendMsg)
-    this.socket.on('server.receive-group-msg', this.onReceiveGroupMsg)
-    this.socket.on('server.receive-add-friend-req', this.onReceiveAddFriendReq)
-    this.socket.on('server.receive-add-friend-res', this.onReceiveAddFriendRes)
-  }
-
-  socketConnect() {
-    this.socket!.auth = { uid: userStore.userinfo.uid }
-    this.socket?.connect()
-  }
-
-  socketDisconnect() {
-    this.socket?.disconnect()
-  }
-
-  sendFriendMsg(payload: any) {
+  /**
+   * 发送私聊消息
+   * @param payload
+   */
+  sendPrivateMessage(payload: any) {
     console.group('ws:发送好友消息')
     console.log('event', 'client.send-friend-msg')
     console.log('payload', payload)
@@ -139,14 +147,33 @@ class ChatStore {
     console.groupEnd()
   }
 
-  sendGroupMessage(payload: any) {
+  /**
+   * 发送群聊消息
+   * @param payload
+   */
+  sendGroupMessage(payload: {
+    groupId: string
+    messageType: MessageType
+    content: string
+    senderInfo: IUserinfo
+    postDate: Date
+  }) {
     console.group('ws:发送群聊消息')
     console.log('event', 'client.send-group-msg')
     console.log('payload', payload)
-    this.socket?.emit('client.send-group-msg', payload)
+    this.socket?.emit('client.send-group-msg', payload, (res: any) => {
+      const { code, message } = res
+      if (code === 0) {
+        this.setGroupMessagesMap(payload.groupId, message)
+      }
+    })
     console.groupEnd()
   }
 
+  /**
+   * 发送添加好友请求
+   * @param payload
+   */
   sendAddFriendReq(payload: any) {
     console.group('ws:发送添加好友请求')
     console.log('event', 'client.send-add-friend-req')
@@ -155,6 +182,10 @@ class ChatStore {
     console.groupEnd()
   }
 
+  /**
+   * 发送加入群聊请求
+   * @param payload
+   */
   sendJoinGroupReq(payload: any) {
     console.group('ws:发送加入群聊请求')
     console.log('event', 'client.send-join-group-req')
@@ -163,10 +194,18 @@ class ChatStore {
     console.groupEnd()
   }
 
+  /**
+   * 更新会话列表
+   * @param data
+   */
   setConversationsList(data: any[]) {
     this.conversationsList = data
   }
 
+  /**
+   * 更新群聊列表
+   * @param data
+   */
   setGroupsList(data: any[]) {
     this.groupsList = data
   }
@@ -191,10 +230,16 @@ class ChatStore {
     this.privateMessagesMap.set(friendId, [...messagesList!, message])
   }
 
+  /**
+   * socket连接状态
+   */
   get isSocketConnected() {
     return this.socket?.disconnected
   }
 
+  /**
+   * socket id
+   */
   get socketId() {
     return this.socket?.id
   }

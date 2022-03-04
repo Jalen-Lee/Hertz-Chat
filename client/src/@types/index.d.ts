@@ -1,5 +1,25 @@
+interface IUserinfo {
+  uid: string
+  username: string
+  avatar?: string
+  gender?: number
+  email?: string
+  description?: string
+}
+
 type MessageType = 'text' | 'file'
 type ConversationType = 'private' | 'group'
+
+interface IConversation {
+  id: string
+  name: string
+  avatar: string
+  hotMsg: string
+  postDate: string
+  unreadCount: number
+  type: ConversationType
+  info: any
+}
 
 interface IPrivateMessage {
   name: string
@@ -12,4 +32,5 @@ interface IGroupMessage {
   senderInfo: any
   messageType: MessageType
   content: string
+  postDate: Date
 }

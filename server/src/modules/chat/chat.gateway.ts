@@ -131,16 +131,22 @@ export class ChatGateway
   handleClientSendGroupMsg(
     @MessageBody() data: any,
     @ConnectedSocket() client: Socket,
-  ): void {
-    const { groupId, sender, type, content } = data
+  ): any {
+    const { groupId, senderInfo, messageType, content, postDate } = data
     console.log('client.send-group-msg', data)
-    client.broadcast.to(groupId).emit('server.receive-group-msg', {
+    const message = {
       id: nanoid(),
       groupId,
-      senderInfo: sender,
-      messageType: type,
+      senderInfo,
+      messageType,
       content,
-    })
+      postDate,
+    }
+    client.broadcast.to(groupId).emit('server.receive-group-msg', message)
+    return {
+      code: 0,
+      message,
+    }
   }
 
   /**

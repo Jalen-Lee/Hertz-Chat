@@ -1,17 +1,8 @@
 import { makeAutoObservable } from 'mobx'
 
-interface IUserinfo {
-  uid: string
-  username: string
-  avatar: string
-  gender: number
-  email: string
-  description: string
-}
-
 class UserStore {
   // 用户信息
-  userinfo: any
+  userinfo: IUserinfo | undefined
 
   // 会话列表
   conversations: any[] = []
@@ -30,6 +21,14 @@ class UserStore {
 
   setConversations(conversations: any[]) {
     this.conversations = conversations
+  }
+
+  get uid() {
+    return this.userinfo?.uid
+  }
+
+  get username() {
+    return this.userinfo?.username
   }
 }
 

@@ -1,0 +1,43 @@
+.profile-card {
+  width: 320px;
+  &-header {
+    height: 196px;
+    overflow: hidden;
+    &-top {
+      position: relative;
+      height: 136px;
+      .cover {
+        position: relative;
+        height: 100%;
+        overflow: hidden;
+        img {
+          width: 100%;
+          vertical-align: bottom;
+        }
+      }
+      .avatar {
+        width: 100px;
+        height: 100px;
+        background: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        position: absolute;
+        left: 5px;
+        bottom: -50px;
+      }
+    }
+
+    &-bottom {
+
+    }
+
+  }
+
+  &-main {
+  }
+
+  &-footer {
+  }
+}
