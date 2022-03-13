@@ -6,11 +6,12 @@ import useStore from './hooks/useStore'
 
 export const GlobalContext = createContext<any>({})
 
-function App() {
+function App(props: any) {
   const { appInit, authStore, chatStore } = useStore()
   const hasLogin = authStore.hasLogin
   // const hasLogin = true
 
+  console.log(props.children)
 
   useEffect(() => {
     appInit()
@@ -20,10 +21,7 @@ function App() {
     }
   }, [])
 
-
-  return (
-    hasLogin ? <Chat /> : <Entrance />
-  )
+  return hasLogin ? <Chat /> : <Entrance />
 }
 
 export default observer(App)

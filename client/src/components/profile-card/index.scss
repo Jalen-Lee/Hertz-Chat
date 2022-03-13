@@ -1,5 +1,6 @@
 .profile-card {
   width: 320px;
+  border-radius: 5px;
   &-header {
     height: 196px;
     overflow: hidden;
@@ -36,8 +37,38 @@
   }
 
   &-main {
+    width: 100%;
   }
 
   &-footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    border-top: 1px solid #eff0f0;
   }
+}
+
+
+.profile-card-info-row{
+  display: flex;
+  font-size: 18px;
+  flex-wrap: nowrap;
+  margin: 10px 0;
+  padding: 0 7px;
+  &-label{
+    width: 35%;
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  &-value{
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.ant-popover-inner-content{
+  padding: 0!important;
 }

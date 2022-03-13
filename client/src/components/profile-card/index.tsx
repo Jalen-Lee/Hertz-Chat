@@ -1,11 +1,22 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
-import { Avatar } from 'antd'
+import { Avatar, Button, Divider } from 'antd'
 import './index.scss'
 
 import bg from '../../assets/17052.jpg'
 import avatar from '../../assets/avatar.jpeg'
 import useStore from '../../hooks/useStore'
+
+const InfoRow = function () {
+  return (
+    <div className="profile-card-info-row">
+      <div className="profile-card-info-row-label">性别</div>
+      <div className="profile-card-info-row-value">
+        男水电费水电费舒服舒服舒服非法所得发沙发上
+      </div>
+    </div>
+  )
+}
 
 export default observer(function ProfileCard() {
   const { userStore } = useStore()
@@ -29,9 +40,19 @@ export default observer(function ProfileCard() {
         </div>
         <div className="profile-card-header-bottom"></div>
       </div>
-      <div className="profile-card-main"></div>
+      <div className="profile-card-main">
+        <InfoRow />
+        <InfoRow />
+        <InfoRow />
+        <InfoRow />
+        <InfoRow />
+      </div>
 
-      <div className="profile-card-footer"></div>
+      <div className="profile-card-footer">
+        <Button type="link">个人信息管理</Button>
+        <Divider type="vertical" />
+        <Button type="link">个人信息管理</Button>
+      </div>
     </div>
   )
 })
