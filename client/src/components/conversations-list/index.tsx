@@ -7,6 +7,11 @@ import ConversationItem from '../conversations-list-item'
 import classNames from 'classnames'
 import useStore from '../../hooks/useStore'
 
+import { Modal, Input, Tabs } from 'antd'
+
+const { Search } = Input
+const { TabPane } = Tabs
+
 interface Conversation {
   name: string
   avatar: string
@@ -31,14 +36,14 @@ const conversationsList = [
   },
 ]
 
-interface Prop {
-  conversationChange: any
-  isShow: boolean
-}
+interface ConversationsListProp {}
 
-export default observer(function ({ conversationChange, isShow }: Prop) {
-  const [currentConversation, setCurrentConversation] = useState<any>()
-  const { chatStore } = useStore()
+export default observer(function (props: ConversationsListProp) {
+  const [visible, setVisible] = useState(false)
+  const {
+    appStore: { currentConversation, setCurrentConversation },
+    chatStore,
+  } = useStore()
 
   useEffect(() => {}, [chatStore.conversationsList])
 
@@ -55,20 +60,21 @@ export default observer(function ({ conversationChange, isShow }: Prop) {
   ) {
     console.log('选择会话', conversation)
     setCurrentConversation(conversation)
-    conversationChange(conversation)
   }
 
+  function handleAdd() {
+    setVisible(true)
+  }
+
+  function handleSearch() {}
+
   return (
-    <div
-      className={classNames('conversation-list-container', {
-        invisible: !isShow,
-      })}
-    >
+    <div className="conversation-list-container">
       <div className="header">
         <div className="search-bar">
           <SearchBar />
         </div>
-        <div className="join-btn">
+        <div className="join-btn" onClick={handleAdd}>
           <AddBoxIcon fontSize={'medium'} />
         </div>
       </div>
@@ -87,6 +93,28 @@ export default observer(function ({ conversationChange, isShow }: Prop) {
           )
         })}
       </div>
+      <Modal
+        title={'添加联系人'}
+        visible={visible}
+        footer={null}
+        onCancel={() => setVisible(false)}
+      >
+        <Search
+          placeholder={'请输入联系人'}
+          allowClear
+          size={'large'}
+          onSearch={handleSearch}
+        />
+
+        <Tabs type="card">
+          <TabPane tab="用户" key={'1'}>
+            <h1>用户</h1>
+          </TabPane>
+          <TabPane tab="群聊" key={'2'}>
+            <h1>群聊</h1>
+          </TabPane>
+        </Tabs>
+      </Modal>
     </div>
   )
 })

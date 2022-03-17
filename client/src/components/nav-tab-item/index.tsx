@@ -1,13 +1,13 @@
 import React from 'react'
 import { Tooltip } from '@mui/material'
 import './index.scss'
-import { NavTabItemName } from '../../@types/common.d'
+import { NavTabItemId } from '../../layout/navigations'
 
 interface Prop {
-  id: NavTabItemName
+  id: NavTabItemId
   title: string
   isActive: boolean
-  onClick: (e: React.MouseEvent<HTMLDivElement>, id: NavTabItemName) => void
+  onClick: (e: React.MouseEvent<HTMLDivElement>, id: NavTabItemId) => void
   children: JSX.Element
 }
 

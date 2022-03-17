@@ -1,6 +1,11 @@
 import { makeAutoObservable } from 'mobx'
-
+import { NavTabItemId } from '../layout/navigations'
 class AppStore {
+  // 当前选中的NavTab
+  currentNavTab: NavTabItemId | string = 'conversations'
+
+  currentConversation: any
+
   constructor() {
     makeAutoObservable(
       this,
@@ -9,6 +14,14 @@ class AppStore {
         autoBind: true,
       },
     )
+  }
+
+  setCurrentNavTab(tab: NavTabItemId) {
+    this.currentNavTab = tab
+  }
+
+  setCurrentConversation(conversation: any) {
+    this.currentConversation = conversation
   }
 }
 

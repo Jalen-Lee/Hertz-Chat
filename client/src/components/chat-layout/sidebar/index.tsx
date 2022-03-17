@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import ConversationList from '../../conversations-list'
 import ContactsList from '../../contacts-list'
+import NotificationsList from '../../notifications-list'
 import { NavTabItemName } from '../../../@types/common.d'
 
 import './index.scss'
@@ -19,12 +20,13 @@ export default observer(function ({
 }: Prop) {
   return (
     <aside className="chat-layout-sidebar-container">
-      <ConversationList
-        conversationChange={conversationChange}
-        isShow={currentTab === NavTabItemName.CONVERSATIONS_LIST}
-      />
+      <ConversationList />
       <ContactsList
         onContactChange={onContactChange}
+        isShow={currentTab === NavTabItemName.CONTACTS_LIST}
+      />
+      <NotificationsList
+        onChange={() => 11}
         isShow={currentTab === NavTabItemName.CONTACTS_LIST}
       />
     </aside>
