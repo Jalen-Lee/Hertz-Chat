@@ -1,5 +1,34 @@
 .hz-notifications{
   height: 100%;
   overflow: hidden;
-  background: aqua;
+  display: flex;
+  &-col-left{
+    width: 250px;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background-color: #363e47;
+  }
+
+  &-col-right{
+    flex: 1;
+    background: #f4f4f4;
+    &-header{
+      height: 80px;
+
+    }
+
+    &-scroller{
+      height: calc(80vh - 80px);
+      overflow-x: hidden;
+      overflow-y: scroll;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}
+
+.hz-notification-item{
+  margin: 20px 0;
 }

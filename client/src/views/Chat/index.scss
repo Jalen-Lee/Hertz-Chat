@@ -20,7 +20,7 @@
   .hz-chat-panel{
     width: $chat-panel-width;
     height: $chat-panel-height;
-    overflow: hidden;
+    //overflow: hidden;
     box-shadow: 0 11px 20px 0 rgb(0 0 0 / 30%);
     display: flex;
     justify-content: flex-start;
@@ -30,7 +30,8 @@
       height: 100%;
     }
     &-col-right{
-      width: calc(80vw - 80px);
+      flex: 1;
+      display: flex;
       height: 100%;
     }
 

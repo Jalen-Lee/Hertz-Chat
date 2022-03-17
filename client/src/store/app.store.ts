@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx'
 import { NavTabItemId } from '../layout/navigations'
 class AppStore {
   // 当前选中的NavTab
-  currentNavTab: NavTabItemId | string = 'conversations'
+  currentNavTab: NavTabItemId | string = 'notifications'
 
   currentConversation: any
 

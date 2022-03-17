@@ -74,9 +74,9 @@ export default observer(function (props: ConversationsListProp) {
         <div className="search-bar">
           <SearchBar />
         </div>
-        <div className="join-btn" onClick={handleAdd}>
-          <AddBoxIcon fontSize={'medium'} />
-        </div>
+        {/*<div className="join-btn" onClick={handleAdd}>*/}
+        {/*  <AddBoxIcon fontSize={'medium'} />*/}
+        {/*</div>*/}
       </div>
       <div className="conversations-scroll-list">
         {chatStore.conversationsList.map((data) => {

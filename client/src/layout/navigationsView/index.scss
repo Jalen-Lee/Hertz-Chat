@@ -1,6 +1,7 @@
 @import "src/styles/var";
 .hz-navigations-view{
   width: 100%;
+  flex: 1;
   height: $chat-panel-height;
   overflow: hidden;
 }
