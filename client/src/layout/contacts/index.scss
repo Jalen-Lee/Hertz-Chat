@@ -4,5 +4,50 @@
 .hz-contacts{
   height: 100%;
   overflow: hidden;
-  background: red;
+  display: flex;
+  background: #f4f4f4;
+  &-col-left{
+    width: 250px;
+    height: $chat-panel-height;
+    background: #ffffff;
+    //overflow-x: hidden;
+    //overflow-y: scroll;
+  }
+
+  &-col-right{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
+
+.hz-contacts{
+  .ant-collapse{
+    height: $chat-panel-height;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+  .ant-collapse-content > .ant-collapse-content-box{
+    padding: 0;
+  }
+  .ant-list-item{
+    padding: 12px 5px;
+    cursor: pointer;
+    &:hover{
+      .ant-list-item-meta-title{
+        color: #1890ff;
+      }
+    }
+    &-meta{
+      align-items: center;
+      &-title{
+        color: rgba(0, 0, 0, 0.85);
+        transition: all 0.3s;
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+

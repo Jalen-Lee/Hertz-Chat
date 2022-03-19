@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
-import { List, Avatar, Card, Tag, Button } from 'antd'
+import { List, Avatar, Card, Tag, Button, Badge } from 'antd'
 import {
   EditOutlined,
   EllipsisOutlined,
@@ -50,11 +50,11 @@ const data = [
   },
 ]
 
-function NotificationItem() {
+function ContactNotificationItem() {
   return (
     <div className="hz-notification-item">
       <Card
-        title="Default size card"
+        title="好友申请"
         extra={<Tag color="processing">待处理</Tag>}
         style={{ width: 350 }}
         actions={[
@@ -110,22 +110,26 @@ export default observer(function Notifications() {
           renderItem={(item) => (
             <List.Item onClick={() => onChange(item)}>
               <List.Item.Meta
-                avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                title={item.name}
-                description={''}
+                avatar={
+                  <Avatar
+                    src="https://joeschmoe.io/api/v1/random"
+                    size="large"
+                  />
+                }
+                title={<h3>{item.name}</h3>}
+                description={'dadasdadadas'}
               />
-              <h1>123</h1>
+              <Badge count={25} size={'small'} />
             </List.Item>
           )}
         />
       </div>
       <div className="hz-notifications-col-right">
-        <div className="hz-notifications-col-right-header"></div>
+        <div className="hz-notifications-col-right-header">
+          <div className="hz-detail-title">联系人申请</div>
+        </div>
         <div className="hz-notifications-col-right-scroller">
-          <NotificationItem />
-          <NotificationItem />
-          <NotificationItem />
-          <NotificationItem />
+          <ContactNotificationItem />
         </div>
       </div>
     </div>

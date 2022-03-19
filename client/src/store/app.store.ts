@@ -6,6 +6,8 @@ class AppStore {
 
   currentConversation: any
 
+  currentSettingsNavTab: string = 'profile'
+
   constructor() {
     makeAutoObservable(
       this,
@@ -22,6 +24,11 @@ class AppStore {
 
   setCurrentConversation(conversation: any) {
     this.currentConversation = conversation
+  }
+
+  setCurrentSettingsNavTab(tab: string) {
+    console.log('setCurrentSettingsNavTab', tab)
+    this.currentSettingsNavTab = tab
   }
 }
 
