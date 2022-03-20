@@ -17,16 +17,15 @@ const ProfileForm = observer(function () {
   return (
     <div className="hz-settings-profile">
       <Form
-        name="basic"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
+        name="profile"
         initialValues={{ remember: true }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
+        labelCol={{ span: 8 }}
       >
         <Form.Item
-          label="Username"
+          label="用户名"
           name="username"
           rules={[{ required: true, message: 'Please input your username!' }]}
         >
@@ -34,24 +33,15 @@ const ProfileForm = observer(function () {
         </Form.Item>
 
         <Form.Item
-          label="Password"
-          name="password"
+          label="邮箱"
+          name="email"
           rules={[{ required: true, message: 'Please input your password!' }]}
         >
           <Input.Password />
         </Form.Item>
-
-        <Form.Item
-          name="remember"
-          valuePropName="checked"
-          wrapperCol={{ offset: 8, span: 16 }}
-        >
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
-
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+        <Form.Item wrapperCol={{ offset: 8 }}>
           <Button type="primary" htmlType="submit">
-            Submit
+            保存
           </Button>
         </Form.Item>
       </Form>
@@ -72,7 +62,9 @@ export default observer(function Settings() {
       <Tabs
         onChange={onChange}
         tabPosition="left"
+        defaultActiveKey="profile"
         activeKey={currentSettingsNavTab}
+        size="large"
       >
         <TabPane tab="个人信息" key="profile">
           <ProfileForm />
