@@ -8,6 +8,7 @@ html,
 body,
 #root {
   height: 100%;
+  overflow: hidden;
 }
 
 
@@ -39,6 +40,18 @@ ul {
   background-color: transparent;
 }
 
+.list-style-none{
+  list-style: none!important;
+}
+
 .invisible{
   display: none!important;
+}
+
+.hz-detail-title{
+  color: #1c2438;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 50px;
+  text-shadow: #76828c 0 0 0.1em;
 }

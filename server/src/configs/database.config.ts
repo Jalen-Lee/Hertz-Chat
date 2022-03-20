@@ -1,4 +1,3 @@
-import { join } from 'path'
 import { registerAs } from '@nestjs/config'
 import { UserAccountEntity } from '../entities/UserAccount.entity'
 import { UserProfileEntity } from '../entities/UserProfile.entity'

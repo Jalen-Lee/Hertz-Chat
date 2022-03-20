@@ -1,10 +1,13 @@
-.chat-layout-navigation-container{
+$nav-background-color:#303841;
+$nav-width:80px;
+
+.hz-navigation{
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  width: 80px;
-  height: 80vh;
-  background-color: #303841;
+  width: $nav-width;
+  height: 100%;
+  background-color: $nav-background-color;
   .profile{
     width: 100%;
     height: 80px;

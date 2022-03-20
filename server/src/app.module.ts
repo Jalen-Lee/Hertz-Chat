@@ -4,6 +4,7 @@ import { AppService } from './app.service'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import databaseConfig from './configs/database.config'
+import qiniuConfig from './configs/qiniu.config'
 
 // 业务模块
 import { AuthModule } from './modules/auth/auth.module'
@@ -12,6 +13,7 @@ import { ChatModule } from './modules/chat/chat.module'
 import { GroupModule } from './modules/group/group.module'
 import { FriendModule } from './modules/friend/friend.module'
 import { ConversationModule } from './modules/conversation/conversation.module'
+import { QiniuModule } from './modules/qiniu/qiniu.module'
 
 @Module({
   imports: [
@@ -23,7 +25,7 @@ import { ConversationModule } from './modules/conversation/conversation.module'
       // 全局使用
       isGlobal: true,
       // 自定义配置文件
-      load: [databaseConfig],
+      load: [databaseConfig, qiniuConfig],
     }),
     // typeorm模块
     TypeOrmModule.forRootAsync({
@@ -42,6 +44,8 @@ import { ConversationModule } from './modules/conversation/conversation.module'
     FriendModule,
     // 回话模块
     ConversationModule,
+    // 七牛云
+    QiniuModule,
   ],
   controllers: [AppController],
   providers: [AppService],

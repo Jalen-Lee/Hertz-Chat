@@ -10,7 +10,6 @@ import TextBox from '../conversation-detail-textbox'
 import useStore from '../../hooks/useStore'
 
 interface ConversationDetailProps {
-  conversation: IConversation
   children?: React.ReactNode
 }
 
@@ -45,11 +44,9 @@ const MessagesScroller = observer(function (props: MessagesScrollerProps) {
   )
 })
 
-const ConversationDetail = observer(function ({
-  conversation,
-}: ConversationDetailProps) {
-  console.log('conversation', conversation)
+const ConversationDetail = observer(function (props: ConversationDetailProps) {
   const {
+    appStore: { currentConversation },
     userStore: { userinfo },
     chatStore: { sendPrivateMessage, sendGroupMessage },
   } = useStore()
@@ -57,11 +54,11 @@ const ConversationDetail = observer(function ({
   const handleSubmit = function (val: string) {
     if (val.length === 0) return
     console.log('发送消息', val, val.length)
-    if (conversation.type === 'private') {
+    if (currentConversation.type === 'private') {
       sendPrivateMessage({})
-    } else if (conversation.type === 'group') {
+    } else if (currentConversation.type === 'group') {
       sendGroupMessage({
-        groupId: conversation.id,
+        groupId: currentConversation.id,
         messageType: 'text',
         content: val,
         senderInfo: userinfo!,
@@ -74,7 +71,7 @@ const ConversationDetail = observer(function ({
     <div className={'conversation-detail'}>
       <header className="header">
         <div className="left">
-          <div className="friend-name">{conversation.name}</div>
+          <div className="friend-name">{currentConversation.name}</div>
         </div>
         <div className="right">
           <div className="video-call">
@@ -86,7 +83,10 @@ const ConversationDetail = observer(function ({
         </div>
       </header>
       <main className="content">
-        <MessagesScroller id={conversation.id} type={conversation.type} />
+        <MessagesScroller
+          id={currentConversation.id}
+          type={currentConversation.type}
+        />
       </main>
       <div className="input-area">
         <TextBox onSubmit={handleSubmit} />

@@ -1,6 +1,9 @@
-#chat-container{
-  width: 100vw;
+@import "src/styles/var";
+
+
+#hz-chat-view{
   height: 100vh;
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,10 +17,23 @@
     background: url('https://web.sdk.qcloud.com/im/demo/latest/img/bg.e6f0a1db.jpg') no-repeat 0 0;
     background-size: cover;
   }
-  .layout{
-    width: 80vw;
-    height: 80vh;
-    max-width: 1280px;
+  .hz-chat-panel{
+    width: $chat-panel-width;
+    height: $chat-panel-height;
+    //overflow: hidden;
     box-shadow: 0 11px 20px 0 rgb(0 0 0 / 30%);
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    &-col-left{
+      width: 80px;
+      height: 100%;
+    }
+    &-col-right{
+      flex: 1;
+      display: flex;
+      height: 100%;
+    }
+
   }
 }
