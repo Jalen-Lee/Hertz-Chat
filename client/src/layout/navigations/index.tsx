@@ -54,7 +54,7 @@ export default observer(function Navigations(props: NavigationsProp) {
                   size="middle"
                   onClick={() => {
                     setPopupVisible(false)
-                    setCurrentSettingsNavTab('account')
+                    setCurrentSettingsNavTab('profile')
                     setCurrentNavTab(NavTabItemId.SETTINGS)
                   }}
                 >

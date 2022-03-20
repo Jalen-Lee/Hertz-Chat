@@ -3,10 +3,22 @@
   overflow: hidden;
   display: flex;
   background: #ffffff;
+
+  &-profile{
+    padding: 24px 24px 24px 0;
+  }
 }
 
 .hz-settings{
+
+  .ant-tabs{
+    flex: 1;
+  }
   .ant-tabs-nav{
     background: #f4f4f4;
+  }
+
+  .ant-form{
+    max-width: 450px;
   }
 }

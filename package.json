@@ -21,7 +21,5 @@
   "devDependencies": {
     "prettier": "^2.5.1"
   },
-  "dependencies": {
-    "nprogress": "^0.2.0"
-  }
+  "dependencies": {}
 }
