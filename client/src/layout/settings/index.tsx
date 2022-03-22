@@ -3,10 +3,15 @@ import { observer } from 'mobx-react-lite'
 import './index.scss'
 import { Tabs, Form, Input, Button, Checkbox } from 'antd'
 import useStore from '../../hooks/useStore'
+import { uploadFile } from '../../utils/qiniu'
+import { nanoid } from 'nanoid'
 
 const { TabPane } = Tabs
 
 const ProfileForm = observer(function () {
+  const {
+    authStore: { uploadToken },
+  } = useStore()
   const onFinish = (values: any) => {
     console.log('Success:', values)
   }
@@ -14,6 +19,15 @@ const ProfileForm = observer(function () {
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo)
   }
+
+  async function onChange(this: any, e: any) {
+    const files = e.target.files
+    console.log('files', files)
+    const [, task] = uploadFile(files[0], uploadToken)
+    const result = await task
+    console.log('result', result)
+  }
+
   return (
     <div className="hz-settings-profile">
       <Form
@@ -45,6 +59,8 @@ const ProfileForm = observer(function () {
           </Button>
         </Form.Item>
       </Form>
+
+      <input type="file" onChange={onChange} />
     </div>
   )
 })

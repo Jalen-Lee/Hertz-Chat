@@ -2,6 +2,7 @@ import { makeAutoObservable } from 'mobx'
 import { io, Socket } from 'socket.io-client'
 import { message } from 'antd'
 import userStore from './user.store'
+import authStore from './auth.store'
 
 interface Friend {
   uid: string
@@ -76,7 +77,9 @@ class ChatStore {
   private onInit(payload: any) {
     console.group('ws:server.initialize')
     console.log('payload', payload)
-    const { conversations, groups } = payload
+    const { conversations, groups, uploadToken } = payload
+    console.log('uploadToken', uploadToken)
+    authStore.setUploadToken(uploadToken)
     conversations.forEach((i: any) => {
       if (!this.groupMessagesMap.has(i.id)) {
         this.groupMessagesMap.set(i.id, [])

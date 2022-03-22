@@ -8,6 +8,7 @@ import { removeToken, setToken } from '../utils/token'
 
 class AuthStore {
   token = ''
+  uploadToken = ''
   hasLogin = false
 
   initTokenFromLocal(token: string) {
@@ -85,6 +86,10 @@ class AuthStore {
   }
 
   logOutAsync() {}
+
+  setUploadToken(token: string) {
+    this.uploadToken = token
+  }
 }
 
 export default new AuthStore()
