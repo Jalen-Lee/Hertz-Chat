@@ -18,11 +18,25 @@ import { UserProfileEntity } from '../../entities/UserProfile.entity'
 import { UserAccountEntity } from '../../entities/UserAccount.entity'
 import { GroupEntity } from '../../entities/Group.entity'
 import { GroupService } from '../group/group.service'
-import any = jasmine.any
+import { QiniuService } from '../qiniu/qiniu.service'
+
+interface Friend {
+  id: string
+  name: string
+  avatar: string
+  info: any
+}
+
+interface Group {
+  id: string
+  name: string
+  avatar: string
+  info: any
+}
 
 @WebSocketGateway({
   namespace: 'hertz-ws-qa',
-  // socket.io跨越
+  // 跨域
   cors: {
     credentials: false,
   },
@@ -32,6 +46,9 @@ export class ChatGateway
 {
   @WebSocketServer() server: Server
 
+  connectionsMap = new Map<string, any>()
+  connectionsSet = new Set<any>()
+
   constructor(
     @InjectRepository(UserProfileEntity)
     private profileRepo: Repository<UserProfileEntity>,
@@ -40,6 +57,7 @@ export class ChatGateway
     @InjectRepository(GroupEntity)
     private groupRepo: Repository<GroupEntity>,
     private readonly groupService: GroupService,
+    private readonly qiniuService: QiniuService,
   ) {}
 
   afterInit(server: Server) {
@@ -50,58 +68,130 @@ export class ChatGateway
   }
 
   async handleConnection(@ConnectedSocket() client: Socket) {
-    const { uid } = client.handshake.auth
-    console.log(`客户端${client.id}已连接,uid:${uid}`)
-    let profile = await this.profileRepo.findOne(uid, {
-      relations: ['groups'],
-    })
-
-    const defaultGroup = await this.groupRepo.findOne({
-      name: 'Hertz 交流群',
-    })
-
-    if (
-      profile &&
-      profile.groups.findIndex((i) => i.name === defaultGroup.name) === -1
-    ) {
-      console.log('用户没有加入Hertz 交流群')
-      profile.groups.push(defaultGroup)
-      profile = await this.profileRepo.save(profile)
-      defaultGroup.attendees.push(profile)
-      await this.groupRepo.save(defaultGroup)
-      console.log('用户当前已加入Hertz 交流群')
-    } else {
-      console.log('用户已经加入Hertz 交流群')
-    }
-
-    // 用户加入群聊
-    for (const group of profile.groups) {
-      client.join(group.id)
-    }
-    console.log('用户已加入所有群聊房间')
-    // 加入自己的房间
+    const { uid, userInfo } = client.handshake.auth
+    this.connectionsMap.set(client.id, userInfo)
+    this.connectionsSet.add(userInfo)
+    console.log(`客户端${client.id}已连接,uid:${uid}`, userInfo)
+    console.log('当前在线人数：', this.connectionsSet.size)
+    // 用户加入自己的房间
     client.join(uid)
-    console.log('用户加入自己的房间')
-
-    const { data } = await this.groupService.getUserGroups(uid)
-    console.log('groups data', data)
+    const uploadToken = await this.qiniuService.createUploadToken()
     client.emit('server.initialize', {
-      conversations: data.map((i) => ({
-        id: i.id,
-        name: i.name,
-        avatar: i.icon,
-        hotMsg: '',
-        postDate: '',
-        unreadCount: 0,
-        type: 'group',
-        info: i,
-      })),
-      groups: data,
+      conversations: [
+        {
+          id: 'ljlyyds',
+          name: 'Hertz 交流群',
+          avatar:
+            'https://pic2.zhimg.com/v2-1c3009805f50abe7950bca70c0c5b34c_l.jpg?source=32738c0c',
+          hotMsg: '',
+          postDate: '',
+          unreadCount: 0,
+          type: 'group',
+          info: {},
+        },
+        ...[...this.connectionsSet]
+          .filter((i) => i.uid !== uid)
+          .map((i) => ({
+            id: i.uid,
+            name: i.username,
+            avatar: i.avatar,
+            hotMsg: '',
+            postDate: '',
+            unreadCount: 0,
+            type: 'private',
+            info: i,
+          })),
+      ],
+      friends: [
+        ...[...this.connectionsSet]
+          .filter((i) => i.uid !== uid)
+          .map((i) => ({
+            id: i.uid,
+            name: i.username,
+            avatar: i.avatar,
+            info: i,
+          })),
+      ],
+      groups: [
+        {
+          id: 'ljlyyds',
+          name: 'Hertz 交流群',
+          avatar:
+            'https://pic2.zhimg.com/v2-1c3009805f50abe7950bca70c0c5b34c_l.jpg?source=32738c0c',
+          info: {},
+        },
+      ],
+      uploadToken,
     })
+    // let profile = await this.profileRepo.findOne(uid, {
+    //   relations: ['groups'],
+    // })
+    //
+    // const defaultGroup = await this.groupRepo.findOne({
+    //   name: 'Hertz 交流群',
+    // })
+    //
+    // if (
+    //   profile &&
+    //   profile.groups.findIndex((i) => i.name === defaultGroup.name) === -1
+    // ) {
+    //   console.log('用户没有加入Hertz 交流群')
+    //   profile.groups.push(defaultGroup)
+    //   profile = await this.profileRepo.save(profile)
+    //   defaultGroup.attendees.push(profile)
+    //   await this.groupRepo.save(defaultGroup)
+    //   console.log('用户当前已加入Hertz 交流群')
+    // } else {
+    //   console.log('用户已经加入Hertz 交流群')
+    // }
+    //
+    // // 用户加入群聊
+    // for (const group of profile.groups) {
+    //   client.join(group.id)
+    // }
+    // // console.log('用户已加入所有群聊房间')
+    // // 加入自己的房间
+    // client.join(uid)
+    // // console.log('用户加入自己的房间')
+    //
+    // const { data } = await this.groupService.getUserGroups(uid)
+    // const uploadToken = await this.qiniuService.createUploadToken()
+    // client.emit('server.initialize', {
+    //   conversations: data.map((i) => ({
+    //     id: i.id,
+    //     name: i.name,
+    //     avatar: i.icon,
+    //     hotMsg: '',
+    //     postDate: '',
+    //     unreadCount: 0,
+    //     type: 'group',
+    //     info: i,
+    //   })),
+    //   groups: data,
+    //   uploadToken,
+    // })
   }
 
   handleDisconnect(@ConnectedSocket() client: Socket) {
+    const userInfo = this.connectionsMap.get(client.id)
+    this.connectionsSet.delete(userInfo)
+    this.connectionsMap.delete(client.id)
+    const rooms = [...this.connectionsSet].map((i) => i.uid)
+    client.to(rooms).emit('server.user-disconnected', {
+      conversations: [...this.connectionsSet].map((i) => ({
+        id: i.uid,
+        name: i.username,
+        avatar: i.avatar,
+        hotMsg: '',
+        postDate: '',
+        unreadCount: 0,
+        type: 'private',
+        info: i,
+      })),
+    })
+    console.log('rooms', rooms)
     console.log(`客户端${client.id}已断开连接`)
+    console.log(`当前在线人数：${this.connectionsSet.size}`)
   }
 
   /**

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import './index.scss'
 import { Collapse, List, Avatar, Card, Divider } from 'antd'
@@ -33,7 +33,6 @@ const data = [
 
 export default observer(function Contacts() {
   function onChange(item: any) {}
-
   return (
     <div className="hz-contacts">
       <div className="hz-contacts-col-left">

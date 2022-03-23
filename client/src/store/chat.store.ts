@@ -5,12 +5,18 @@ import userStore from './user.store'
 import authStore from './auth.store'
 
 interface Friend {
-  uid: string
+  id: string
   name: string
   avatar: string
+  info: any
 }
 
-interface Group {}
+interface Group {
+  id: string
+  name: string
+  avatar: string
+  info: any
+}
 
 class ChatStore {
   // 当前连接socket实例
@@ -18,9 +24,9 @@ class ChatStore {
   // wss连接url
   wssUrl: string = process.env.REACT_APP_WS_BASE_URL as string
   // 好友列表
-  friendsList: any[] = []
+  friendsList: Friend[] = []
   // 群聊列表
-  groupsList: any[] = []
+  groupsList: Group[] = []
   // 会话列表
   conversationsList: IConversation[] = []
   // 群聊消息表
@@ -48,6 +54,8 @@ class ChatStore {
     })
 
     this.socket.on('server.initialize', this.onInit)
+    this.socket.on('server.user-connected', this.onUserConnected)
+    this.socket.on('server.user-disconnected', this.onUserDisconnected)
     this.socket.on('server.receive-friend-msg', this.onReceiveFriendMsg)
     this.socket.on('server.receive-group-msg', this.onReceiveGroupMsg)
     this.socket.on('server.receive-add-friend-req', this.onReceiveAddFriendReq)
@@ -58,7 +66,7 @@ class ChatStore {
    * 建立socket连接
    */
   socketConnect() {
-    this.socket!.auth = { uid: userStore.userinfo?.uid }
+    this.socket!.auth = { uid: userStore.uid, userInfo: userStore.userinfo }
     this.socket?.connect()
   }
 
@@ -77,7 +85,7 @@ class ChatStore {
   private onInit(payload: any) {
     console.group('ws:server.initialize')
     console.log('payload', payload)
-    const { conversations, groups, uploadToken } = payload
+    const { conversations, friends, groups, uploadToken } = payload
     console.log('uploadToken', uploadToken)
     authStore.setUploadToken(uploadToken)
     conversations.forEach((i: any) => {
@@ -88,6 +96,7 @@ class ChatStore {
     console.log('messagesMap', this.groupMessagesMap)
     this.setConversationsList(conversations)
     this.setGroupsList(groups)
+    this.setFriendsList(friends)
     console.groupEnd()
   }
 
@@ -211,6 +220,10 @@ class ChatStore {
    */
   setGroupsList(data: any[]) {
     this.groupsList = data
+  }
+
+  setFriendsList(data: Friend[]) {
+    this.friendsList = data
   }
 
   /**
