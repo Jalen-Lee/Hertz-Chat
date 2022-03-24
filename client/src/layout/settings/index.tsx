@@ -65,6 +65,18 @@ const ProfileForm = observer(function () {
   )
 })
 
+const AccountView = observer(function () {
+  const { authStore } = useStore()
+  function onLogout() {
+    authStore.logOutAsync()
+  }
+  return (
+    <div>
+      <Button onClick={onLogout}>注销账号</Button>
+    </div>
+  )
+})
+
 export default observer(function Settings() {
   const {
     appStore: { currentSettingsNavTab, setCurrentSettingsNavTab },
@@ -92,7 +104,7 @@ export default observer(function Settings() {
           Content of Tab Pane 2
         </TabPane>
         <TabPane tab="账号设置" key="account">
-          Content of Tab Pane 3
+          <AccountView />
         </TabPane>
       </Tabs>
     </div>

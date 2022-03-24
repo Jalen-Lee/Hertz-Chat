@@ -77,6 +77,10 @@ class ChatStore {
     this.socket?.disconnect()
   }
 
+  onUserConnected(payload: any) {}
+
+  onUserDisconnected(payload: any) {}
+
   /**
    *
    * @param payload
@@ -86,14 +90,12 @@ class ChatStore {
     console.group('ws:server.initialize')
     console.log('payload', payload)
     const { conversations, friends, groups, uploadToken } = payload
-    console.log('uploadToken', uploadToken)
     authStore.setUploadToken(uploadToken)
     conversations.forEach((i: any) => {
       if (!this.groupMessagesMap.has(i.id)) {
         this.groupMessagesMap.set(i.id, [])
       }
     })
-    console.log('messagesMap', this.groupMessagesMap)
     this.setConversationsList(conversations)
     this.setGroupsList(groups)
     this.setFriendsList(friends)

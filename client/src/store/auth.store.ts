@@ -85,7 +85,11 @@ class AuthStore {
     }
   }
 
-  logOutAsync() {}
+  logOutAsync() {
+    this.token = ''
+    this.hasLogin = false
+    removeToken()
+  }
 
   setUploadToken(token: string) {
     this.uploadToken = token
